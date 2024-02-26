@@ -1,4 +1,5 @@
 #include "ael/boards/pico/spi.hpp"
+#include "ael/boards/pico/gpio.hpp"
 
 using namespace ael::boards::pico;
 
@@ -10,10 +11,15 @@ int main() {
     // TX Pin
     static constexpr auto MOSI_PIN = 11;
 
-    // static constexpr auto RST_PIN = 12;
-    // static constexpr auto BL_PIN = 13;
+    spi::SPI<spi::eInstSPI::SPI_0, CS_PIN, CLK_PIN, MOSI_PIN, MISO_PIN, 10'000 * 1000> spi_inst;
 
-    SPI<eInstSPI::SPI_0, CS_PIN, CLK_PIN, MOSI_PIN, MISO_PIN, 10'000 * 1000> inst;
+    // static constexpr auto RST_PIN = 12;
+    GPIO<12, eGPIODir::OUT> RST_PIN;
+
+    // static constexpr auto BL_PIN = 13;
+    GPIO<13, eGPIODir::OUT> BL_PIN;
+
+    BL_PIN.set();
 
     return 0;
 }

@@ -17,21 +17,20 @@ else()
 endif()
 
 if (AEL_USE_PICO_SDK)
-    include(./cmake/pico_sdk_import.cmake)
+    include(external/pico-sdk/pico_sdk_init.cmake)
+    # include(cmake/pico_sdk_import.cmake)
     set(PICO_BOARD ${AEL_BOARD})
     set(PICO_TOOLCHAIN_PATH ${AEL_TOOLCHAIN_PATH})
     pico_sdk_init()
+else()
     # TODO(aver): Add other options
+    message("Nothing configured...")
 endif()
 
 add_library(${PROJECT_NAME} INTERFACE)
 
-target_include_directories(${PROJECT_NAME} INTERFACE
-    cpp/includes
-)
+add_subdirectory(cpp)
 
 target_link_libraries(${PROJECT_NAME} INTERFACE
-    pico_stdlib
-    hardware_spi
-    hardware_gpio
+    ael_main
 )

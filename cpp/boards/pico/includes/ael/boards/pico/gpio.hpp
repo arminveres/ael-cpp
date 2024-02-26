@@ -6,6 +6,8 @@
 
 namespace ael::boards::pico {
 
+using namespace types;
+
 /// GPIO Direction, either OUT or IN
 enum class eGPIODir : bool { OUT = 1, IN = 0 };
 

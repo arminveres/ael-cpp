@@ -4,7 +4,7 @@
 #include <cmath>
 #include <cstdint>
 
-namespace ael {
+namespace ael::types {
 
 // Unsigned
 using u8 = std::uint8_t;
