@@ -1,15 +1,23 @@
-add_library(pi_pico INTERFACE)
-
-target_include_directories(pi_pico INTERFACE
-    includes
+add_library(ael_boards_pi_pico STATIC
+    extras/lis3dh.cpp
 )
 
-target_link_directories(pi_pico INTERFACE
+target_include_directories(ael_boards_pi_pico PUBLIC
     includes
+    ${CMAKE_SOURCE_DIR}/cpp/main/includes
+    ${CMAKE_SOURCE_DIR}/cpp/peripherals/lis3dh/includes
 )
 
-target_link_libraries(pi_pico INTERFACE
+target_link_libraries(ael_boards_pi_pico PUBLIC
+    ael_main
+    ael_peripherals_lis3dh
+
     pico_stdlib
-    hardware_spi
     hardware_gpio
+    hardware_spi
+    hardware_i2c
+)
+
+set_target_properties(ael_boards_pi_pico PROPERTIES
+    OUTPUT_NAME "ael::boards::pi_pico"
 )

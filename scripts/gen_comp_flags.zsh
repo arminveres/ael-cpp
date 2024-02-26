@@ -6,7 +6,7 @@ pref="-I"
 
 cat <<EOF >$FILE
 /opt/gcc-arm-none-eabi/bin/arm-none-eabi-g++
--std=c++20,
+-std=c++23,
 EOF
 
 pushd cpp

@@ -11,12 +11,12 @@ using namespace types;
 /// GPIO Direction, either OUT or IN
 enum class eGPIODir : bool { OUT = 1, IN = 0 };
 
-template <u8 pin, eGPIODir dir>
+template <eGPIODir dir>
 class GPIO {
    public:
-    GPIO() {
-        gpio_init(pin);
-        gpio_set_dir(pin, static_cast<bool>(dir));
+    GPIO(const u8 pin) : m_pin(pin) {
+        gpio_init(m_pin);
+        gpio_set_dir(m_pin, static_cast<bool>(dir));
     }
     GPIO(GPIO &&) = default;
     GPIO(const GPIO &) = default;
@@ -24,16 +24,17 @@ class GPIO {
     GPIO &operator=(const GPIO &) = default;
     ~GPIO() {}
 
-    auto set() { gpio_put(pin, true); }
-    auto clear() { gpio_put(pin, false); }
+    auto set() { gpio_put(m_pin, true); }
+    auto clear() { gpio_put(m_pin, false); }
     auto toggle() {
-        if (gpio_get(pin))
+        if (gpio_get(m_pin))
             clear();
         else
             set();
     }
 
    private:
+    u8 m_pin;
 };
 
 }  // namespace ael::boards::pi_pico::gpio

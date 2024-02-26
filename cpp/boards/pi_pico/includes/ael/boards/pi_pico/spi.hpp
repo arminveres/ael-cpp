@@ -6,8 +6,8 @@
 
 #include <cstdio>
 
-#include "ael/boards/pi_pico/gpio.hpp"
 #include "ael/types.hpp"
+#include "ael/boards/pi_pico/gpio.hpp"
 
 namespace ael::boards::pi_pico::spi {
 
@@ -27,19 +27,31 @@ enum class eInstSPI { SPI_0, SPI_1 };
  * @warn : DO NOT use multiple instances of SPIs
  */
 
-template <eInstSPI SPI_INSTANCE, u8 CS, u8 SCLK, u8 TX, u8 RX, u32 SPI_SPEED>
+// template <eInstSPI SPI_INSTANCE, u8 CS, u8 SCLK, u8 TX, u8 RX, u32 SPI_SPEED>
 class SPI {
    public:
-    SPI() {
+    SPI(const eInstSPI espi,
+        const u8 CSpin,
+        const u8 SCLKpin,
+        const u8 TXpin,
+        const u8 RXpin,
+        const u32 spi_speed)
+
+        : RX_PIN(RXpin), CS_PIN(CSpin) {
+        if (espi == eInstSPI::SPI_0) {
+            m_spi = spi0;
+        } else {
+            m_spi = spi1;
+        }
         // Pico Initialization of SPI
-        spi_init(this->get_instance(), SPI_SPEED);
-        gpio_set_function(SCLK, GPIO_FUNC_SPI);
-        gpio_set_function(TX, GPIO_FUNC_SPI);
-        gpio_set_function(RX, GPIO_FUNC_SPI);
+        spi_init(m_spi, spi_speed);
+        gpio_set_function(SCLKpin, GPIO_FUNC_SPI);
+        gpio_set_function(TXpin, GPIO_FUNC_SPI);
+        gpio_set_function(RXpin, GPIO_FUNC_SPI);
         CS_PIN.set();
         RX_PIN.clear();
         sleep_ms(50);
-        spi_set_format(this->get_instance(), 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
+        spi_set_format(m_spi, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
     }
 
     SPI(SPI &&) = delete;
@@ -47,7 +59,7 @@ class SPI {
     SPI &operator=(SPI &&) = delete;
     SPI &operator=(const SPI &) = delete;
 
-    ~SPI() { spi_deinit(this->get_instance()); }
+    ~SPI() { spi_deinit(m_spi); }
 
     /**
      * @brief Read from a register
@@ -68,9 +80,9 @@ class SPI {
 
         // auto bytes_read = spi_write_read_blocking(get_instance(), buf, &msg, buflen + 1);
 
-        spi_write_blocking(this->get_instance(), &tx, 1);
+        spi_write_blocking(m_spi, &tx, 1);
 
-        auto bytes_read = spi_read_blocking(this->get_instance(), 0, buf, buflen);
+        auto bytes_read = spi_read_blocking(m_spi, 0, buf, buflen);
 
         // auto bytes_read = spi_read_blocking(this->get_instance(), 0, rx, buflen);
         // for (size_t i = 0; i < buflen; i++) {
@@ -101,7 +113,7 @@ class SPI {
         }
 
         // Write to register
-        spi_write_blocking(this->get_instance(), msg, len);
+        spi_write_blocking(this->m_spi, msg, len);
         CS_PIN.set();
     }
 
@@ -111,7 +123,7 @@ class SPI {
 
         // get old val und use it to update
         u8 reg_val = 0;
-        if (not spi_read_blocking(this->get_instance(), 0, &reg_val, 1))
+        if (not spi_read_blocking(this->m_spi, 0, &reg_val, 1))
             printf("ERROR while reading register\n");
         // printf("Status: 0b%b\n", reg_val);
 
@@ -121,23 +133,23 @@ class SPI {
         msg[1] = reg_val | data;
 
         // Write to register
-        spi_write_blocking(this->get_instance(), msg, len);
+        spi_write_blocking(this->m_spi, msg, len);
         CS_PIN.set();
     }
 
    private:
-    static constexpr u8 READ_OP = 0x80;
-    GPIO<RX, eGPIODir::OUT> RX_PIN;
-    GPIO<CS, eGPIODir::OUT> CS_PIN;
+    GPIO<eGPIODir::OUT> RX_PIN;
+    GPIO<eGPIODir::OUT> CS_PIN;
+    spi_inst_t *m_spi;
 
     /// Return the correct SPI instance
-    constexpr auto get_instance() -> spi_inst_t * {
-        if constexpr (SPI_INSTANCE == eInstSPI::SPI_0)
-            return spi0;
-        else
-            return spi1;
-    }
+    // constexpr auto get_instance() -> spi_inst_t * {
+    //     if constexpr (SPI_INSTANCE == eInstSPI::SPI_0)
+    //         return spi0;
+    //     else
+    //         return spi1;
+    // }
 };
 
-}  // namespace ael::boards::pico::spi
+}  // namespace ael::boards::pi_pico::spi
 #endif  // !__AEL_BOARDS_PICO_SPI_HPP

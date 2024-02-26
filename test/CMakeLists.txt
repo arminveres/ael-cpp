@@ -7,24 +7,19 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_CXX_STANDARD 20)
 
-project(AEL_TEST
-    LANGUAGES C CXX ASM
-    VERSION 0.1.0
-)
-
 # use pico sdk defined in ael
 set(AEL_USE_PICO_SDK true)
 set(AEL_BOARD pico_w)
 set(AEL_TOOLCHAIN_PATH /opt/gcc-arm-none-eabi/bin)
 
-add_subdirectory(../ ./build)
-
-add_executable(test1
-    test1.cpp
+# add AEL
+add_subdirectory(..
+    build
 )
 
-target_link_libraries(test1 PUBLIC
-    ael
+project(AEL_TEST
+    LANGUAGES C CXX ASM
+    VERSION 0.1.0
 )
 
 add_compile_options(
@@ -43,6 +38,8 @@ add_compile_options(
     -fstack-usage
     -ffunction-sections
     -fdata-sections
+
+    -fdiagnostics-color
 )
 
 add_link_options(
@@ -50,9 +47,17 @@ add_link_options(
     -Wl,-print-memory-usage
 )
 
-# enable usb output, disable uart output
-pico_enable_stdio_usb(test1 1)
-pico_enable_stdio_uart(test1 0)
+# =================================================================================================
+# TEST 1
+add_executable(test1 test1.cpp)
+target_link_libraries(test1 PUBLIC
+    ael
+)
 
-# create map/bin/hex/uf2 file etc.
-pico_add_extra_outputs(test1)
+# pico_sdk_init()
+# # enable usb output, disable uart output
+# pico_enable_stdio_usb(test1 1)
+# pico_enable_stdio_uart(test1 0)
+
+# # create map/bin/hex/uf2 file etc.
+# pico_add_extra_outputs(test1)
