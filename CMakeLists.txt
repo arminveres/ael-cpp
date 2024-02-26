@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.12)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
-set(CMAKE_C_STANDARD 23)
-set(CMAKE_CXX_STANDARD 20)
+
+
+if (AEL_USE_PICO_SDK)
+    include(external/pico-sdk/pico_sdk_init.cmake)
+    set(PICO_BOARD ${AEL_BOARD})
+    set(PICO_TOOLCHAIN_PATH ${AEL_TOOLCHAIN_PATH})
+else()
+    # TODO(aver): Add other options
+endif()
 
 project(ael
     LANGUAGES C CXX ASM
@@ -10,21 +16,24 @@ project(ael
     DESCRIPTION "Armins Embedded Library (AEL)"
 )
 
+set(CMAKE_C_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
+
 if(NOT DEFINED AEL_TOOLCHAIN_PATH)
-    message(FATAL_ERROR "AEL_TOOLCHAIN_PATH is not set!")
+    message(WARNING "AEL_TOOLCHAIN_PATH is not set, trying to set it to '/opt'!")
+    set(AEL_TOOLCHAIN_PATH /opt/gcc-arm-none-eabi/bin/)
+    if(NOT DEFINED AEL_TOOLCHAIN_PATH)
+        message(FATAL_ERROR "AEL_TOOLCHAIN_PATH is not set!")
+    endif()
 else()
     message(STATUS "Found AEL Toolchain at ${AEL_TOOLCHAIN_PATH}")
 endif()
 
 if (AEL_USE_PICO_SDK)
-    include(external/pico-sdk/pico_sdk_init.cmake)
-    # include(cmake/pico_sdk_import.cmake)
-    set(PICO_BOARD ${AEL_BOARD})
-    set(PICO_TOOLCHAIN_PATH ${AEL_TOOLCHAIN_PATH})
     pico_sdk_init()
 else()
     # TODO(aver): Add other options
-    message("Nothing configured...")
+    message(TRACE "Nothing configured...")
 endif()
 
 add_library(${PROJECT_NAME} INTERFACE)

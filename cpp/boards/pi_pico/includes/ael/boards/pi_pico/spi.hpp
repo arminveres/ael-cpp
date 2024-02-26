@@ -6,14 +6,15 @@
 
 #include <cstdio>
 
-#include "ael/boards/pico/gpio.hpp"
+#include "ael/boards/pi_pico/gpio.hpp"
 #include "ael/types.hpp"
 
-namespace ael::boards::pico::spi {
+namespace ael::boards::pi_pico::spi {
 
 using namespace types;
+using namespace gpio;
 
-// FIXME(aver): remove
+// FIXME(aver): move to peripheral
 static constexpr u8 LIS3DH_SPI_READ_FLAG = 0x80;
 static constexpr u8 LIS3DH_SPI_WRITE_FLAG = 0x00;
 static constexpr u8 LIS3DH_SPI_AUTO_INC_FLAG = 0x40;

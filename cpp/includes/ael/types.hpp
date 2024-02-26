@@ -1,5 +1,5 @@
-#ifndef AEL_TYPES_H_
-#define AEL_TYPES_H_
+#ifndef __AEL_TYPES_HPP
+#define __AEL_TYPES_HPP
 
 #include <cmath>
 #include <cstdint>
@@ -20,5 +20,5 @@ using i32 = std::int32_t;
 using f32 = std::float_t;
 using f64 = std::double_t;
 
-}  // namespace ael
+}  // namespace ael::types
 #endif  // ! AEL_TYPES_H_

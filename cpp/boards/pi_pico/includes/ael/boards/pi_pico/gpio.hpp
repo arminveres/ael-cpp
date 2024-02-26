@@ -4,7 +4,7 @@
 
 #include "ael/types.hpp"
 
-namespace ael::boards::pico {
+namespace ael::boards::pi_pico::gpio {
 
 using namespace types;
 
@@ -36,5 +36,5 @@ class GPIO {
    private:
 };
 
-}  // namespace ael::boards::pico
+}  // namespace ael::boards::pi_pico::gpio
 #endif  // !__AEL_BOARDS_PICO_GPIO_HPP
