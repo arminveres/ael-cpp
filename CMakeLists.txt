@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
-set(CMAKE_GENERATOR "Ninja")
 
 if (AEL_USE_PICO_SDK)
     include(external/pico-sdk/pico_sdk_init.cmake)
