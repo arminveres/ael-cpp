@@ -1,10 +1,18 @@
 #ifndef __AEL_PERIPHERALS_LIS3DH_LIS3DH_HPP
 #define __AEL_PERIPHERALS_LIS3DH_LIS3DH_HPP
+#include <optional>
+
 #include "ael/types.hpp"
 
 namespace ael::peripherals::lis3dh {
 using namespace ael::types;
 
+/**
+ * @brief Interface class to be implemented by board specifics
+ *
+ * @todo
+ *  - add more optional or expected return types
+ */
 class I_LIS3DH {
    public:
     /**
@@ -23,7 +31,7 @@ class I_LIS3DH {
 
     virtual ~I_LIS3DH(){};
 
-    virtual auto init() -> void = 0;
+    virtual auto init() -> std::optional<eError> = 0;
     virtual auto reg_set(const u8 reg, const u8 value) const -> void = 0;
     virtual auto reg_update(const u8 reg, const u8 val) const -> void = 0;
     [[nodiscard]] virtual auto reg_read(const u8 reg) const -> u8 = 0;

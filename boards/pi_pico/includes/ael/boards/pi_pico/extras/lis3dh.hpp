@@ -1,5 +1,7 @@
 #ifndef __AEL_BOARDS_PI_PICO_EXTRAS_HPP
 #define __AEL_BOARDS_PI_PICO_EXTRAS_HPP
+#include <optional>
+
 #include "../spi.hpp"
 #include "ael/peripherals/lis3dh/lis3dh.hpp"
 #include "ael/types.hpp"
@@ -22,7 +24,7 @@ class LIS3DH : private I_LIS3DH {
     // LIS3DH &operator=(LIS3DH &&) = delete;
     // LIS3DH &operator=(const LIS3DH &) = delete;
 
-    auto init() -> void override;
+    auto init() -> std::optional<eError> override;
     auto reg_set(const u8 reg, const u8 value) const -> void override;
     auto reg_update(const u8 reg, const u8 val) const -> void override;
     [[nodiscard]] auto reg_read(const u8 reg) const -> u8 override;

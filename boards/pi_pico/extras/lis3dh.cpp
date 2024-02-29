@@ -2,6 +2,8 @@
 
 #include <pico/stdlib.h>
 
+#include <optional>
+
 #include "ael/boards/pi_pico/spi.hpp"
 #include "ael/peripherals/lis3dh/registers.hpp"
 #include "ael/types.hpp"
@@ -15,7 +17,7 @@ LIS3DH::LIS3DH(SPI &p_spi) : m_spi(p_spi) {}
 
 LIS3DH::~LIS3DH() {}
 
-auto LIS3DH::init() -> void {
+auto LIS3DH::init() -> std::optional<eError> {
     constexpr reg_ctrl1 r1{
         .Xen = true,
         .Yen = true,
@@ -46,7 +48,8 @@ auto LIS3DH::init() -> void {
         .ADC_EN = true,
     };
     this->reg_set(reg_temp_cfg::ADDR, rtemp.reg);
-    printf("bye\n");
+
+    return std::nullopt;
 }
 
 auto LIS3DH::reg_set(const u8 reg, const u8 value) const -> void { m_spi.rwrite<1>(reg, &value); }
