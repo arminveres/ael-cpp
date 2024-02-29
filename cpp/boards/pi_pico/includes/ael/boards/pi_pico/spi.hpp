@@ -61,20 +61,15 @@ class SPI {
      */
     template <u8 buflen>
     [[maybe_unused]] auto rread(const u8 reg, u8 buf[]) -> u8 {
-        CS_PIN.clear();  // set chip select to low, to indicate transmission
-
+        GPIO_Lock spi_lock(CS_PIN);
         constexpr auto mb = buflen == 1 ? 0u : 1u;
-
-        // u8 tx = (READ_OP | (mb << 6) | reg);  // construct msg
         const u8 tx = (reg) | (mb << 6);
 
         // u8 rx[buflen + 1];
         // memset(rx, 0xff, buflen + 1);
-
-        // auto bytes_read = spi_write_read_blocking(get_instance(), buf, &msg, buflen + 1);
+        // auto bytes_read = spi_write_read_blocking(m_spi, buf, rx, buflen + 1);
 
         spi_write_blocking(m_spi, &tx, 1);
-
         auto bytes_read = spi_read_blocking(m_spi, 0, buf, buflen);
 
         // auto bytes_read = spi_read_blocking(this->get_instance(), 0, rx, buflen);
@@ -83,7 +78,6 @@ class SPI {
         //     buf[i] = rx[i + 1];
         // }
 
-        CS_PIN.set();  // set back to high -> no transmission
         return bytes_read;
     }
 
@@ -92,7 +86,7 @@ class SPI {
      */
     template <u8 buflen>
     auto rwrite(const u8 reg, const u8 data[]) -> void {
-        CS_PIN.clear();
+        GPIO_Lock spi_lock(CS_PIN);
 
         constexpr auto len = 1 + buflen;
         u8 msg[len];
@@ -107,11 +101,10 @@ class SPI {
 
         // Write to register
         spi_write_blocking(this->m_spi, msg, len);
-        CS_PIN.set();
     }
 
     auto rupdate(const u8 reg, const u8 data) -> void {
-        CS_PIN.clear();
+        GPIO_Lock spi_lock(CS_PIN);
         constexpr auto len = 2;
 
         // get old val und use it to update
@@ -127,13 +120,30 @@ class SPI {
 
         // Write to register
         spi_write_blocking(this->m_spi, msg, len);
-        CS_PIN.set();
     }
 
    private:
     GPIO<eGPIODir::OUT> RX_PIN;
     GPIO<eGPIODir::OUT> CS_PIN;
     spi_inst_t *m_spi;
+
+    /**
+     * @brief Little helper class to clear and set the spi line
+     */
+    template <eGPIODir dir>
+    struct GPIO_Lock {
+        GPIO_Lock(GPIO<dir> &pin) : m_pin(pin) {
+            // set chip select to low, to indicate transmission
+            m_pin.clear();
+        }
+        ~GPIO_Lock() {
+            // set back to high -> no transmission
+            m_pin.set();
+        }
+
+       private:
+        GPIO<dir> &m_pin;
+    };
 };
 
 }  // namespace ael::boards::pi_pico::spi
