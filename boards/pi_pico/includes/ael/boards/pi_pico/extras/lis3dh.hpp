@@ -1,42 +1,38 @@
 #ifndef __AEL_BOARDS_PI_PICO_EXTRAS_HPP
 #define __AEL_BOARDS_PI_PICO_EXTRAS_HPP
 #include "../spi.hpp"
+#include "ael/peripherals/lis3dh/lis3dh.hpp"
 #include "ael/types.hpp"
 
 namespace ael::boards::pi_pico::extras::lis3dh {
 using namespace ael::boards::pi_pico::spi;
 using namespace ael::types;
+using namespace ael::peripherals::lis3dh;
 
-struct Accel {
-    i16 x;
-    i16 y;
-    i16 z;
-};
-
-class LIS3DH {
+class LIS3DH : private I_LIS3DH {
    public:
-    // explicit LIS3DH(std::shared_ptr<SPI> p_spi);
+    static constexpr u8 LIS3DH_ID = 0x33;
+
     explicit LIS3DH(SPI& p_spi);
+    ~LIS3DH();
 
     // LIS3DH() = delete;
     // LIS3DH(LIS3DH &&) = delete;
     // LIS3DH(const LIS3DH &) = delete;
     // LIS3DH &operator=(LIS3DH &&) = delete;
     // LIS3DH &operator=(const LIS3DH &) = delete;
-    // ~LIS3DH() {}
 
-    auto init() -> void;
-    auto reg_set(const u8 reg, const u8 value) const -> void;
-    auto reg_update(const u8 reg, const u8 val) const -> void;
-    [[nodiscard]] auto reg_read(const u8 reg) const -> u8;
-    [[nodiscard]] auto read_accel() const -> Accel;
+    auto init() -> void override;
+    auto reg_set(const u8 reg, const u8 value) const -> void override;
+    auto reg_update(const u8 reg, const u8 val) const -> void override;
+    [[nodiscard]] auto reg_read(const u8 reg) const -> u8 override;
+    [[nodiscard]] auto read_accel() const -> Accel override;
 
    private:
     static constexpr u8 LIS3DH_SPI_READ_FLAG = 0x80;
     static constexpr u8 LIS3DH_SPI_WRITE_FLAG = 0x00;
     static constexpr u8 LIS3DH_SPI_AUTO_INC_FLAG = 0x40;
 
-    // std::shared_ptr<SPI> m_spi;
     SPI& m_spi;
 
     /**

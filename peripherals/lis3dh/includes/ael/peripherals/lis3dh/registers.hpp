@@ -76,6 +76,15 @@ union reg_status_aux {
 
 union reg_ctrl1 {
     static constexpr u8 ADDR = 0x20;
+
+    static constexpr u8 RATE_1_HZ = 0x10;
+    static constexpr u8 RATE_10_HZ = 0x20;
+    static constexpr u8 RATE_25_HZ = 0x30;
+    static constexpr u8 RATE_50_HZ = 0x40;
+    static constexpr u8 RATE_100_HZ = 0x50;
+    static constexpr u8 RATE_200_HZ = 0x60;
+    static constexpr u8 RATE_400_HZ = 0x70;
+
     struct {
         u8 Xen : 1;   // CTRL1<0>    X axis enable
         u8 Yen : 1;   // CTRL1<1>    Y axis enable

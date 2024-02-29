@@ -49,26 +49,26 @@ target_link_libraries(ael INTERFACE
     ael_peripherals
 )
 
-# target_compile_options(ael INTERFACE
-#     # -Werror
-#     -Wall
-#     -Wextra
-#     -Wconversion
-#     -Wpedantic
-#     # note covered by above
-#     -Wshadow
-#     -Wundef
-#     -Wdouble-promotion
-#     -Os
-#     -mtune=cortex-m0plus
-#     -fno-common
-#     -fstack-usage
-#     -ffunction-sections
-#     -fdata-sections
-#     -fdiagnostics-color
-# )
+target_compile_options(ael INTERFACE
+    -Werror
+    -Wall
+    -Wextra
+    -Wconversion
+    -Wpedantic
+    # note covered by above
+    -Wshadow
+    -Wundef
+    -Wdouble-promotion
+    -Os
+    -mtune=cortex-m0plus
+    -fno-common
+    -fstack-usage
+    -ffunction-sections
+    -fdata-sections
+    -fdiagnostics-color
+)
 
-# target_link_options(ael INTERFACE
-#     -Wl,-gc-sections
-#     -Wl,-print-memory-usage
-# )
+target_link_options(ael INTERFACE
+    -Wl,-gc-sections
+    -Wl,-print-memory-usage
+)

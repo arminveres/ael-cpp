@@ -11,8 +11,9 @@ using namespace ael::boards::pi_pico::spi;
 using namespace ael::peripherals::lis3dh;
 using namespace ael::types;
 
-// LIS3DH::LIS3DH(std::shared_ptr<SPI> p_spi) : m_spi(p_spi) {}
 LIS3DH::LIS3DH(SPI &p_spi) : m_spi(p_spi) {}
+
+LIS3DH::~LIS3DH() {}
 
 auto LIS3DH::init() -> void {
     constexpr reg_ctrl1 r1{
