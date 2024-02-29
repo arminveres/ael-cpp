@@ -7,6 +7,3 @@ target_link_libraries(ael_boards INTERFACE
     ael_boards_pi_pico
 )
 
-set_target_properties(ael_boards PROPERTIES 
-    OUTPUT_NAME "ael::boards"
-)

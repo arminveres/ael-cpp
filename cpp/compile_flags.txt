@@ -1,7 +1,7 @@
 /opt/gcc-arm-none-eabi/bin/arm-none-eabi-g++
 -std=c++23,
--I../cpp/boards/pico_pi/includes/
 -I../cpp/main/includes/
+-I../cpp/boards/pico_pi/includes/
 -I../cpp/peripherals/lis3dh/includes/
 -I../external/pico-sdk/src/boards/include/
 -I../external/pico-sdk/src/common/boot_picoboot/include/

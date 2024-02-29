@@ -6,18 +6,13 @@
 
 #include <cstdio>
 
-#include "ael/types.hpp"
 #include "ael/boards/pi_pico/gpio.hpp"
+#include "ael/types.hpp"
 
 namespace ael::boards::pi_pico::spi {
 
 using namespace types;
 using namespace gpio;
-
-// FIXME(aver): move to peripheral
-static constexpr u8 LIS3DH_SPI_READ_FLAG = 0x80;
-static constexpr u8 LIS3DH_SPI_WRITE_FLAG = 0x00;
-static constexpr u8 LIS3DH_SPI_AUTO_INC_FLAG = 0x40;
 
 enum class eInstSPI { SPI_0, SPI_1 };
 
@@ -36,7 +31,6 @@ class SPI {
         const u8 TXpin,
         const u8 RXpin,
         const u32 spi_speed)
-
         : RX_PIN(RXpin), CS_PIN(CSpin) {
         if (espi == eInstSPI::SPI_0) {
             m_spi = spi0;
@@ -50,7 +44,6 @@ class SPI {
         gpio_set_function(RXpin, GPIO_FUNC_SPI);
         CS_PIN.set();
         RX_PIN.clear();
-        sleep_ms(50);
         spi_set_format(m_spi, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
     }
 
@@ -73,7 +66,7 @@ class SPI {
         constexpr auto mb = buflen == 1 ? 0u : 1u;
 
         // u8 tx = (READ_OP | (mb << 6) | reg);  // construct msg
-        const u8 tx = (reg) | (mb << 6) | LIS3DH_SPI_READ_FLAG | LIS3DH_SPI_AUTO_INC_FLAG;
+        const u8 tx = (reg) | (mb << 6);
 
         // u8 rx[buflen + 1];
         // memset(rx, 0xff, buflen + 1);
@@ -141,14 +134,6 @@ class SPI {
     GPIO<eGPIODir::OUT> RX_PIN;
     GPIO<eGPIODir::OUT> CS_PIN;
     spi_inst_t *m_spi;
-
-    /// Return the correct SPI instance
-    // constexpr auto get_instance() -> spi_inst_t * {
-    //     if constexpr (SPI_INSTANCE == eInstSPI::SPI_0)
-    //         return spi0;
-    //     else
-    //         return spi1;
-    // }
 };
 
 }  // namespace ael::boards::pi_pico::spi

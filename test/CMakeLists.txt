@@ -5,7 +5,7 @@ include(../cmake/pico_sdk_import.cmake)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
 set(CMAKE_C_STANDARD 23)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 # use pico sdk defined in ael
 set(AEL_USE_PICO_SDK true)
@@ -22,7 +22,14 @@ project(AEL_TEST
     VERSION 0.1.0
 )
 
-add_compile_options(
+# =================================================================================================
+# TEST 1
+add_executable(test1 test1.cpp)
+target_link_libraries(test1 PUBLIC
+    ael
+)
+
+target_compile_options(test1 PUBLIC
     # -Werror
     -Wall
     -Wextra
@@ -42,17 +49,11 @@ add_compile_options(
     -fdiagnostics-color
 )
 
-add_link_options(
+target_link_options(test1 PUBLIC
     -Wl,-gc-sections
     -Wl,-print-memory-usage
 )
 
-# =================================================================================================
-# TEST 1
-add_executable(test1 test1.cpp)
-target_link_libraries(test1 PUBLIC
-    ael
-)
 
 # pico_sdk_init()
 # # enable usb output, disable uart output

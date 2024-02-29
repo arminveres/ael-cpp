@@ -20,7 +20,7 @@ using i32 = std::int32_t;
 using f32 = std::float_t;
 using f64 = std::double_t;
 
-enum class eError { errorGeneric, errorOther };
+enum class eError { errorGeneric, errorHardware, errorOther };
 
 }  // namespace ael::types
 #endif  // ! AEL_TYPES_H_

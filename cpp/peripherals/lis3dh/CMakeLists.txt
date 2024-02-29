@@ -10,6 +10,3 @@ target_link_libraries(ael_peripherals_lis3dh INTERFACE
     hardware_gpio
 )
 
-set_target_properties(ael_peripherals_lis3dh PROPERTIES 
-    OUTPUT_NAME "ael::peripherals::lis3dh"
-)

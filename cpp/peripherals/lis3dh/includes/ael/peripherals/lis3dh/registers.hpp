@@ -4,6 +4,8 @@
  */
 #ifndef __AEL_PERIPHERALS_LIS3DH_REGISTERS_HPP
 #define __AEL_PERIPHERALS_LIS3DH_REGISTERS_HPP
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 
 #include "ael/types.hpp"
 
@@ -55,6 +57,13 @@ struct reg_addr {
     static constexpr u8 TIME_LATENCY = 0x3c;
     static constexpr u8 TIME_WINDOW = 0x3d;
 };
+
+static constexpr u8 BYPASS = 0x00;
+static constexpr u8 FIFO = 0x40;
+static constexpr u8 STREAM = 0x80;
+static constexpr u8 STREAM_TO_FIFO = 0xc0;
+
+static constexpr u8 temp_cfg_addr = 0x1F;
 
 union reg_status {
     struct {
@@ -147,7 +156,6 @@ union reg_ctrl6 {
 };
 
 union reg_temp_cfg {
-    static constexpr u8 addr = 0x1F;
     struct {
         u8 __reserved : 6;
         u8 TEMP_EN : 1;  // ADC enable, Default = 0
@@ -157,11 +165,6 @@ union reg_temp_cfg {
 };
 
 union reg_fifo_ctrl {
-    static constexpr u8 BYPASS = 0x00;
-    static constexpr u8 FIFO = 0x40;
-    static constexpr u8 STREAM = 0x80;
-    static constexpr u8 STREAM_TO_FIFO = 0xc0;
-
     struct {
         u8 FTH : 5;  // FIFO_CTRL<4:0>  FIFO threshold
         u8 TR : 1;   // FIFO_CTRL<5>    Trigger selection INT1 / INT2
@@ -222,4 +225,5 @@ union reg_click_cfg {
 };
 
 }  // namespace ael::peripherals::lis3dh
+#pragma GCC diagnostic pop
 #endif  // !__AEL_PERIPHERALS_LIS3DH_REGISTERS_HPP

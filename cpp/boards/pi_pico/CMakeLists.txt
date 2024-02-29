@@ -18,6 +18,3 @@ target_link_libraries(ael_boards_pi_pico PUBLIC
     hardware_i2c
 )
 
-set_target_properties(ael_boards_pi_pico PROPERTIES
-    OUTPUT_NAME "ael::boards::pi_pico"
-)
