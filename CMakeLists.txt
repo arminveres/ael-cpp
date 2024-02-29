@@ -3,13 +3,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
 
 if (AEL_USE_PICO_SDK)
     include(external/pico-sdk/pico_sdk_init.cmake)
+    # NOTE(aver): nicer way to inlude, but sadly unsupported...
+    # add_subdirectory(external/pico-sdk SYSTEM)
     set(PICO_BOARD ${AEL_BOARD})
     set(PICO_TOOLCHAIN_PATH ${AEL_TOOLCHAIN_PATH})
 else()
     # TODO(aver): Add other options
 endif()
 
-project(ael
+project(AEL
     LANGUAGES C CXX ASM
     VERSION 0.1.0
     DESCRIPTION "Armins Embedded Library (AEL)"
