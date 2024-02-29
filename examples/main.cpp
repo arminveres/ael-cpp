@@ -23,7 +23,7 @@ using namespace ael::peripherals::lis3dh;
     sleep_ms(500);
 
     const auto id = accm.reg_read(reg_addr::WHO_AM_I);
-    if (id == 0x33u)
+    if (id == LIS3DH::LIS3DH_ID)
         printf("SPI address 0x%x\n", id);
     else {
         printf("ERROR: Expected Address 0x%x\n", reg_addr::WHO_AM_I);
@@ -47,7 +47,7 @@ using namespace ael::peripherals::lis3dh;
         printf("\e[1;1H\e[2J");
 
         // reg_status status;
-        if (const auto status = accm.reg_read(reg_addr::STATUS); not(status & 0x0Fu)) {
+        if (const auto status = accm.reg_read(reg_status::ADDR); not(status & 0x0Fu)) {
             printf("Status: 0b%08b\n", status);
             continue;
         }

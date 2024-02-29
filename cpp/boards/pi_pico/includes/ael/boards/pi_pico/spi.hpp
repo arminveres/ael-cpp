@@ -25,13 +25,14 @@ enum class eInstSPI { SPI_0, SPI_1 };
 // template <eInstSPI SPI_INSTANCE, u8 CS, u8 SCLK, u8 TX, u8 RX, u32 SPI_SPEED>
 class SPI {
    public:
-    SPI(const eInstSPI espi,
-        const u8 CSpin,
-        const u8 SCLKpin,
-        const u8 TXpin,
-        const u8 RXpin,
-        const u32 spi_speed)
-        : RX_PIN(RXpin), CS_PIN(CSpin) {
+    explicit SPI(const eInstSPI espi,
+                 const u8 CSpin,
+                 const u8 SCLKpin,
+                 const u8 TXpin,
+                 const u8 RXpin,
+                 const u32 spi_speed)
+        : CS_PIN(CSpin)
+    {
         if (espi == eInstSPI::SPI_0) {
             m_spi = spi0;
         } else {
@@ -43,14 +44,15 @@ class SPI {
         gpio_set_function(TXpin, GPIO_FUNC_SPI);
         gpio_set_function(RXpin, GPIO_FUNC_SPI);
         CS_PIN.set();
-        RX_PIN.clear();
         spi_set_format(m_spi, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
     }
 
-    SPI(SPI &&) = delete;
-    SPI(const SPI &) = delete;
-    SPI &operator=(SPI &&) = delete;
-    SPI &operator=(const SPI &) = delete;
+
+    // SPI(){}
+    // SPI(SPI &&) = delete;
+    // SPI(const SPI &) = delete;
+    // SPI &operator=(SPI &&) = delete;
+    // SPI &operator=(const SPI &) = delete;
 
     ~SPI() { spi_deinit(m_spi); }
 
@@ -123,7 +125,6 @@ class SPI {
     }
 
    private:
-    GPIO<eGPIODir::OUT> RX_PIN;
     GPIO<eGPIODir::OUT> CS_PIN;
     spi_inst_t *m_spi;
 

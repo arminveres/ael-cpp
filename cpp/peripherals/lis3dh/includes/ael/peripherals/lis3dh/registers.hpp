@@ -14,9 +14,10 @@
 namespace ael::peripherals::lis3dh {
 using namespace types;
 
+/**
+ * @brief register addresses
+ */
 struct reg_addr {
-    // register addresses
-    static constexpr u8 STATUS_AUX = 0x07;
     static constexpr u8 OUT_ADC1_L = 0x08;
     static constexpr u8 OUT_ADC1_H = 0x09;
     static constexpr u8 OUT_ADC2_L = 0x0a;
@@ -25,32 +26,17 @@ struct reg_addr {
     static constexpr u8 OUT_ADC3_H = 0x0d;
     static constexpr u8 INT_COUNTER = 0x0e;
     static constexpr u8 WHO_AM_I = 0x0f;
-    static constexpr u8 TEMP_CFG = 0x1f;
-    static constexpr u8 CTRL1 = 0x20;
-    static constexpr u8 CTRL2 = 0x21;
-    static constexpr u8 CTRL3 = 0x22;
-    static constexpr u8 CTRL4 = 0x23;
-    static constexpr u8 CTRL5 = 0x24;
-    static constexpr u8 CTRL6 = 0x25;
     static constexpr u8 REFERENCE = 0x26;
-    static constexpr u8 STATUS = 0x27;
     static constexpr u8 OUT_X_L = 0x28;
     static constexpr u8 OUT_X_H = 0x29;
     static constexpr u8 OUT_Y_L = 0x2a;
     static constexpr u8 OUT_Y_H = 0x2b;
     static constexpr u8 OUT_Z_L = 0x2c;
     static constexpr u8 OUT_Z_H = 0x2d;
-    static constexpr u8 FIFO_CTRL = 0x2e;
-    static constexpr u8 FIFO_SRC = 0x2f;
-    static constexpr u8 INT1_CFG = 0x30;
-    static constexpr u8 INT1_SRC = 0x31;
     static constexpr u8 INT1_THS = 0x32;
     static constexpr u8 INT1_DUR = 0x33;
-    static constexpr u8 INT2_CFG = 0x34;
-    static constexpr u8 INT2_SRC = 0x35;
     static constexpr u8 INT2_THS = 0x36;
     static constexpr u8 INT2_DUR = 0x37;
-    static constexpr u8 CLICK_CFG = 0x38;
     static constexpr u8 CLICK_SRC = 0x39;
     static constexpr u8 CLICK_THS = 0x3a;
     static constexpr u8 TIME_LIMIT = 0x3b;
@@ -58,14 +44,8 @@ struct reg_addr {
     static constexpr u8 TIME_WINDOW = 0x3d;
 };
 
-static constexpr u8 BYPASS = 0x00;
-static constexpr u8 FIFO = 0x40;
-static constexpr u8 STREAM = 0x80;
-static constexpr u8 STREAM_TO_FIFO = 0xc0;
-
-static constexpr u8 temp_cfg_addr = 0x1F;
-
 union reg_status {
+    static constexpr u8 ADDR = 0x27;
     struct {
         u8 XDA : 1;    // STATUS<0>   X axis new data available
         u8 YDA : 1;    // STATUS<1>   Y axis new data available
@@ -79,7 +59,23 @@ union reg_status {
     u8 reg;
 };
 
+union reg_status_aux {
+    static constexpr u8 ADDR = 0x07;
+    struct {
+        u8 DA1 : 1;    // STATUS_AUX<0>   1 axis data available
+        u8 DA2 : 1;    // STATUS_AUX<1>   2 axis data available
+        u8 DA3 : 1;    // STATUS_AUX<2>   3 axis data available
+        u8 DA321 : 1;  // STATUS_AUX<3>   1, 2 and 3 axis data available
+        u8 OR1 : 1;    // STATUS_AUX<4>   1 axis data overrun
+        u8 OR2 : 1;    // STATUS_AUX<5>   2 axis data overrun
+        u8 OR3 : 1;    // STATUS_AUX<1>   3 axis data overrun
+        u8 OR321 : 1;  // STATUS_AUX<7>   1, 2 and 3 axis data overrun
+    };
+    u8 reg;
+};
+
 union reg_ctrl1 {
+    static constexpr u8 ADDR = 0x20;
     struct {
         u8 Xen : 1;   // CTRL1<0>    X axis enable
         u8 Yen : 1;   // CTRL1<1>    Y axis enable
@@ -91,6 +87,7 @@ union reg_ctrl1 {
 };
 
 union reg_ctrl2 {
+    static constexpr u8 ADDR = 0x21;
     struct {
         u8 HPIS1 : 1;    // CTRL2<0>    HPF enabled for AOI on INT2
         u8 HPIS2 : 1;    // CTRL2<1>    HPF enabled for AOI on INT2
@@ -103,6 +100,7 @@ union reg_ctrl2 {
 };
 
 union reg_ctrl3 {
+    static constexpr u8 ADDR = 0x22;
     struct {
         u8 unused : 1;      // CTRL3<0>  unused
         u8 I1_OVERRUN : 1;  // CTRL3<1>  FIFO Overrun interrupt on INT1
@@ -117,6 +115,7 @@ union reg_ctrl3 {
 };
 
 union reg_ctrl4 {
+    static constexpr u8 ADDR = 0x23;
     struct {
         u8 SIM : 1;  // CTRL4<0>   SPI serial interface selection
         u8 ST : 2;   // CTRL4<2:1> Self test enable
@@ -129,6 +128,7 @@ union reg_ctrl4 {
 };
 
 union reg_ctrl5 {
+    static constexpr u8 ADDR = 0x24;
     struct {
         u8 D4D_INT2 : 1;  // CTRL5<0>   4D detection enabled on INT1
         u8 LIR_INT2 : 1;  // CTRL5<1>   Latch interrupt request on INT1
@@ -142,6 +142,7 @@ union reg_ctrl5 {
 };
 
 union reg_ctrl6 {
+    static constexpr u8 ADDR = 0x25;
     struct {
         u8 unused1 : 1;    // CTRL6<0>   unused
         u8 H_LACTIVE : 1;  // CTRL6<1>   Interrupt polarity
@@ -156,6 +157,7 @@ union reg_ctrl6 {
 };
 
 union reg_temp_cfg {
+    static constexpr u8 ADDR = 0x1F;
     struct {
         u8 __reserved : 6;
         u8 TEMP_EN : 1;  // ADC enable, Default = 0
@@ -165,6 +167,11 @@ union reg_temp_cfg {
 };
 
 union reg_fifo_ctrl {
+    static constexpr u8 ADDR = 0x2e;
+    static constexpr u8 BYPASS = 0x00;
+    static constexpr u8 FIFO = 0x40;
+    static constexpr u8 STREAM = 0x80;
+    static constexpr u8 STREAM_TO_FIFO = 0xc0;
     struct {
         u8 FTH : 5;  // FIFO_CTRL<4:0>  FIFO threshold
         u8 TR : 1;   // FIFO_CTRL<5>    Trigger selection INT1 / INT2
@@ -174,6 +181,7 @@ union reg_fifo_ctrl {
 };
 
 union reg_fifo_src {
+    static constexpr u8 ADDR = 0x2f;
     struct {
         u8 FFS : 5;        // FIFO_SRC<4:0>  FIFO samples stored
         u8 EMPTY : 1;      // FIFO_SRC<5>    FIFO is empty
@@ -184,6 +192,8 @@ union reg_fifo_src {
 };
 
 union reg_intx_cfg {
+    static constexpr u8 INT1_ADDR = 0x30;
+    static constexpr u8 INT2_ADDR = 0x34;
     struct {
         u8 XLIE : 1;  // INTx_CFG<0>    X axis below threshold enabled
         u8 XHIE : 1;  // INTx_CFG<1>    X axis above threshold enabled
@@ -198,6 +208,8 @@ union reg_intx_cfg {
 };
 
 union reg_intx_src {
+    static constexpr u8 INT1_ADDR = 0x31;
+    static constexpr u8 INT2_ADDR = 0x35;
     struct {
         u8 XL : 1;      // INTx_SRC<0>    X axis below threshold enabled
         u8 XH : 1;      // INTx_SRC<1>    X axis above threshold enabled
@@ -212,6 +224,7 @@ union reg_intx_src {
 };
 
 union reg_click_cfg {
+    static constexpr u8 ADDR = 0x38;
     struct {
         u8 XS : 1;      // CLICK_CFG<0>    X axis single click enabled
         u8 XD : 1;      // CLICK_CFG<1>    X axis double click enabled

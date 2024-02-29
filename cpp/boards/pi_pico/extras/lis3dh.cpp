@@ -22,7 +22,7 @@ auto LIS3DH::init() -> void {
         .LPen = false,
         .ODR = 0b0010,
     };
-    this->reg_set(reg_addr::CTRL1, r1.reg);
+    this->reg_set(reg_ctrl1::ADDR, r1.reg);
 
     // set High Pass Filter
     // auto val = regs::CTRL_REG2_FDS;  //| regs::CTRL_REG2_HPCLICK | ;
@@ -31,20 +31,20 @@ auto LIS3DH::init() -> void {
         .HR = false,
         .BDU = true,
     };
-    this->reg_set(reg_addr::CTRL4, r4.reg);
+    this->reg_set(reg_ctrl4::ADDR, r4.reg);
 
     // u8 ref;
     // spi.rread<1>(regs::REG_REFERENCE, &ref);
     // printf("ref: %02x\n", ref);
 
-    constexpr reg_fifo_ctrl rfifo{.FM = BYPASS};
-    this->reg_set(reg_addr::FIFO_CTRL, rfifo.reg);
+    constexpr reg_fifo_ctrl rfifo{.FM = reg_fifo_ctrl::BYPASS};
+    this->reg_set(reg_fifo_ctrl::ADDR, rfifo.reg);
 
     constexpr reg_temp_cfg rtemp{
         .TEMP_EN = true,
         .ADC_EN = true,
     };
-    this->reg_set(temp_cfg_addr, rtemp.reg);
+    this->reg_set(reg_temp_cfg::ADDR, rtemp.reg);
     printf("bye\n");
 }
 
