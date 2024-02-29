@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 3.12)
 set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
 
 if (AEL_USE_PICO_SDK)
-    include(external/pico-sdk/pico_sdk_init.cmake)
+    if (AEL_PICO_IMPORT)
+        include(cmake/pico_sdk_import.cmake)
+    else()
+        include(external/pico-sdk/pico_sdk_init.cmake)
+    endif()
     # NOTE(aver): nicer way to inlude, but sadly unsupported...
     # add_subdirectory(external/pico-sdk SYSTEM)
     set(PICO_BOARD ${AEL_BOARD})
