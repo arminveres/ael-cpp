@@ -13,8 +13,10 @@ target_link_libraries(ael_boards_pi_pico PUBLIC
     ael_peripherals_lis3dh
 
     pico_stdlib
+    pico_time
     hardware_gpio
     hardware_spi
     hardware_i2c
+    hardware_timer
 )
 

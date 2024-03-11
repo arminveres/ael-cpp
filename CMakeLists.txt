@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.12)
-set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
 
 if (AEL_USE_PICO_SDK)
     if (AEL_PICO_IMPORT)
@@ -21,6 +20,7 @@ project(AEL
     DESCRIPTION "Armins Embedded Library (AEL)"
 )
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS yes)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_CXX_STANDARD 23)
 
