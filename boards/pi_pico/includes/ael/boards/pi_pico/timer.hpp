@@ -10,19 +10,23 @@ using namespace ael::types;
 
 namespace ael::boards::pi_pico::timer {
 
-using TimeStamp = std::tuple<u64, u64, u64>;
+using TimeStamp = std::tuple<u8, u8, u8>;
 
 enum class eTimeType { eMicro, eMilli, eSec };
 
 template <eTimeType type>
 struct Timer {
-    auto start() -> void { start_time = time_us_64(); };
+    auto start() -> Timer& {
+        m_start_time = time_us_64();
+        return *this;
+    };
+
     [[nodiscard]] auto stop() -> u64 {
         const auto end = time_us_64();
-        const auto diff = end - start_time;
+        const auto diff = end - this->m_start_time;
         assert(diff != end);
 
-        start_time = 0;
+        this->m_start_time = 0;
         if constexpr (type == eTimeType::eMicro)
             return diff;
         else if constexpr (type == eTimeType::eMilli)
@@ -31,7 +35,7 @@ struct Timer {
             return diff / (1000 * 1000);
     };
 
-    [[nodiscard]] auto get_now() -> u64 {
+    [[nodiscard]] auto get_now() const -> u64 {
         if constexpr (type == eTimeType::eMicro)
             return time_us_64();
         else if constexpr (type == eTimeType::eMilli)
@@ -43,26 +47,28 @@ struct Timer {
     /**
      * @brief Returns the current time in Hours, Minutes and Seconds as a tuple
      */
-    [[nodiscard]] auto get_now_triple() -> TimeStamp { return convert_to_tuple(get_now()); }
+    [[nodiscard]] auto get_now_triple() const -> TimeStamp {
+        return convert_to_tuple(this->get_now());
+    }
 
     /**
      * @brief Stops the clock and returns the current time in Hours, Minutes and Seconds as a tuple
      */
-    [[nodiscard]] auto stop_with_triple() -> TimeStamp { return convert_to_tuple(stop()); }
+    [[nodiscard]] auto stop_with_triple() -> TimeStamp { return convert_to_tuple(this->stop()); }
 
    private:
     /// start time in microseconds
-    u64 start_time = 0;
+    u64 m_start_time = 0;
 
     /**
      * @brief Convert time to timestep in Hours, Minutes and seconds
      */
-    auto convert_to_tuple(const u64 now) -> TimeStamp {
-        auto now_s = 0;
+    static auto convert_to_tuple(const u64 now) -> TimeStamp {
+        auto now_s = 0u;
         if constexpr (type == eTimeType::eMicro) {
-            now_s = now / (1000 * 1000);
+            now_s = now / (1000u * 1000u);
         } else if constexpr (type == eTimeType::eMilli) {
-            now_s = now / 1000;
+            now_s = now / 1000u;
         } else if constexpr (type == eTimeType::eSec) {
             now_s = now;
         }
