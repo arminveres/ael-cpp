@@ -6,7 +6,6 @@
 
 namespace ael::boards::pi_pico::gpio {
 
-using namespace types;
 
 /// GPIO Direction, either OUT or IN
 enum class eGPIODir : bool { OUT = 1, IN = 0 };
@@ -14,7 +13,7 @@ enum class eGPIODir : bool { OUT = 1, IN = 0 };
 template <eGPIODir dir>
 class GPIO {
    public:
-    GPIO(const u8 pin) : m_pin(pin) {
+    GPIO(const types::u8 pin) : m_pin(pin) {
         gpio_init(m_pin);
         gpio_set_dir(m_pin, static_cast<bool>(dir));
     }
@@ -34,7 +33,7 @@ class GPIO {
     }
 
    private:
-    u8 m_pin;
+    types::u8 m_pin;
 };
 
 }  // namespace ael::boards::pi_pico::gpio

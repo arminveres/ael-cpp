@@ -6,11 +6,9 @@
 
 #include "ael/types.hpp"
 
-using namespace ael::types;
-
 namespace ael::boards::pi_pico::timer {
 
-using TimeStamp = std::tuple<u8, u8, u8>;
+using TimeStamp = std::tuple<types::u8, types::u8, types::u8>;
 
 enum class eTimeType { eMicro, eMilli, eSec };
 
@@ -21,11 +19,12 @@ struct Timer {
         return *this;
     };
 
-    [[nodiscard]] auto stop() -> u64 {
+    [[nodiscard]] auto stop() -> types::u64 {
         const auto end = time_us_64();
         const auto diff = end - this->m_start_time;
         assert(diff != end);
 
+        // WARN(aver): This stops the clock
         this->m_start_time = 0;
         if constexpr (type == eTimeType::eMicro)
             return diff;
@@ -35,7 +34,7 @@ struct Timer {
             return diff / (1000 * 1000);
     };
 
-    [[nodiscard]] auto get_now() const -> u64 {
+    [[nodiscard]] auto get_now() const -> types::u64 {
         if constexpr (type == eTimeType::eMicro)
             return time_us_64();
         else if constexpr (type == eTimeType::eMilli)
@@ -58,12 +57,12 @@ struct Timer {
 
    private:
     /// start time in microseconds
-    u64 m_start_time = 0;
+    types::u64 m_start_time = 0;
 
     /**
      * @brief Convert time to timestep in Hours, Minutes and seconds
      */
-    static auto convert_to_tuple(const u64 now) -> TimeStamp {
+    static auto convert_to_tuple(const types::u64 now) -> TimeStamp {
         auto now_s = 0u;
         if constexpr (type == eTimeType::eMicro) {
             now_s = now / (1000u * 1000u);

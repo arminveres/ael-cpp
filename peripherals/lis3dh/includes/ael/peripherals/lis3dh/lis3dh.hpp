@@ -5,7 +5,6 @@
 #include "ael/types.hpp"
 
 namespace ael::peripherals::lis3dh {
-using namespace ael::types;
 
 /**
  * @brief Interface class to be implemented by board specifics
@@ -19,22 +18,17 @@ class I_LIS3DH {
      * @brief Acceleration data in signed 16 bit integers
      */
     struct Accel {
-        i16 x;
-        i16 y;
-        i16 z;
+        types::i16 x;
+        types::i16 y;
+        types::i16 z;
     };
-    // I_LIS3DH() = default;
-    // I_LIS3DH(I_LIS3DH &&) = delete;
-    // I_LIS3DH(const I_LIS3DH &) = delete;
-    // virtual I_LIS3DH &operator=(I_LIS3DH &&) = delete;
-    // virtual I_LIS3DH &operator=(const I_LIS3DH &) = delete;
 
     virtual ~I_LIS3DH(){};
 
-    virtual auto init() -> std::optional<eError> = 0;
-    virtual auto reg_set(const u8 reg, const u8 value) const -> void = 0;
-    virtual auto reg_update(const u8 reg, const u8 val) const -> void = 0;
-    [[nodiscard]] virtual auto reg_read(const u8 reg) const -> u8 = 0;
+    virtual auto init() -> std::optional<types::eError> = 0;
+    virtual auto reg_set(const types::u8 reg, const types::u8 value) const -> void = 0;
+    virtual auto reg_update(const types::u8 reg, const types::u8 val) const -> void = 0;
+    [[nodiscard]] virtual auto reg_read(const types::u8 reg) const -> types::u8 = 0;
     [[nodiscard]] virtual auto read_accel() const -> Accel = 0;
 
     // auto reset() -> void {
