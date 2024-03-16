@@ -35,12 +35,16 @@ struct Timer {
     };
 
     [[nodiscard]] auto get_now() const -> types::u64 {
+        const auto end = time_us_64();
+        const auto diff = end - this->m_start_time;
+        assert(diff != end);
+
         if constexpr (type == eTimeType::eMicro)
-            return time_us_64();
+            return diff;
         else if constexpr (type == eTimeType::eMilli)
-            return time_us_64() / 1000;
+            return diff / 1000;
         else if constexpr (type == eTimeType::eSec)
-            return time_us_64() / (1000 * 1000);
+            return diff / (1000 * 1000);
     }
 
     /**
