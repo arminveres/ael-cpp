@@ -4,6 +4,7 @@
 
 #include "../spi.hpp"
 #include "ael/peripherals/lis3dh/lis3dh.hpp"
+#include "ael/peripherals/lis3dh/registers.hpp"
 #include "ael/types.hpp"
 
 namespace ael::boards::pi_pico::extras::lis3dh {
@@ -15,7 +16,8 @@ class LIS3DH : private I_LIS3DH {
    public:
     static constexpr u8 LIS3DH_ID = 0x33;
 
-    explicit LIS3DH(SPI& p_spi);
+    explicit LIS3DH(spi::SPI& p_spi,
+                    const types::u8 sampling_rate = peripherals::lis3dh::reg_ctrl1::RATE_10_HZ);
     ~LIS3DH();
 
     // LIS3DH() = delete;

@@ -13,17 +13,17 @@ using namespace ael::boards::pi_pico::spi;
 using namespace ael::peripherals::lis3dh;
 using namespace ael::types;
 
-LIS3DH::LIS3DH(SPI &p_spi) : m_spi(p_spi) {}
+LIS3DH::LIS3DH(SPI &p_spi, const u8 sampling_rate) : m_spi(p_spi), m_sampling_rate(sampling_rate) {}
 
 LIS3DH::~LIS3DH() {}
 
 auto LIS3DH::init() -> std::optional<eError> {
-    constexpr reg_ctrl1 r1{
+    const reg_ctrl1 r1{
         .Xen = true,
         .Yen = true,
         .Zen = true,
         .LPen = false,
-        .ODR = 0b0010,
+        .ODR = m_sampling_rate,
     };
     this->reg_set(reg_ctrl1::ADDR, r1.reg);
 
