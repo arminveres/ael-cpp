@@ -2,13 +2,15 @@
 #define __AEL_BOARDS_PI_PICO_TIMER_HPP
 #include <hardware/timer.h>
 
-#include <tuple>
-
 #include "ael/types.hpp"
 
 namespace ael::boards::pi_pico::timer {
 
-using TimeStamp = std::tuple<types::u8, types::u8, types::u8>;
+struct TimeStamp {
+    types::u8 hours;
+    types::u8 minutes;
+    types::u8 seconds;
+};
 
 enum class eTimeType { eMicro, eMilli, eSec };
 
@@ -67,7 +69,7 @@ struct Timer {
      * @brief Convert time to timestep in Hours, Minutes and seconds
      */
     static auto convert_to_tuple(const types::u64 now) -> TimeStamp {
-        auto now_s = 0u;
+        auto now_s = 0llu;
         if constexpr (type == eTimeType::eMicro) {
             now_s = now / (1000u * 1000u);
         } else if constexpr (type == eTimeType::eMilli) {
@@ -75,9 +77,9 @@ struct Timer {
         } else if constexpr (type == eTimeType::eSec) {
             now_s = now;
         }
-        const auto hours = now_s / (60 * 60);
-        auto rem_s = now % (60 * 60);
-        const auto mins = rem_s / 60;
+        const auto hours = static_cast<types::u8>(now_s / (60 * 60));
+        auto rem_s = static_cast<types::u8>(now % (60 * 60));
+        const types::u8 mins = rem_s / 60;
         rem_s = rem_s % 60;
         return {hours, mins, rem_s};
     }
