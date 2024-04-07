@@ -44,9 +44,14 @@ class SPI {
         gpio_set_function(TXpin, GPIO_FUNC_SPI);
         gpio_set_function(RXpin, GPIO_FUNC_SPI);
         CS_PIN.set();
+        // RX_PIN.clear();
         spi_set_format(m_spi, 8, SPI_CPOL_1, SPI_CPHA_1, SPI_MSB_FIRST);
     }
 
+    auto set_format(const types::u8 data_bits) -> SPI {
+        // spi_set_format(m_spi, data_bits);
+        return *this;
+    }
     // SPI(){}
     // SPI(SPI &&) = delete;
     // SPI(const SPI &) = delete;
