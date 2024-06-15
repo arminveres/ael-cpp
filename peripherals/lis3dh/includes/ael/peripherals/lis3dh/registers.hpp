@@ -178,10 +178,11 @@ union reg_temp_cfg {
 
 union reg_fifo_ctrl {
     static constexpr types::u8 ADDR = 0x2e;
-    static constexpr types::u8 BYPASS = 0x00;
-    static constexpr types::u8 FIFO = 0x40;
-    static constexpr types::u8 STREAM = 0x80;
-    static constexpr types::u8 STREAM_TO_FIFO = 0xc0;
+
+    static constexpr types::u8 BYPASS = 0b00;
+    static constexpr types::u8 FIFO = 0b01;
+    static constexpr types::u8 STREAM = 0b10;
+    static constexpr types::u8 STREAM_TO_FIFO = 0b11;
     struct {
         types::u8 FTH : 5;  // FIFO_CTRL<4:0>  FIFO threshold
         types::u8 TR : 1;   // FIFO_CTRL<5>    Trigger selection INT1 / INT2
