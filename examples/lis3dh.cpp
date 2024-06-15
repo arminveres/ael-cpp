@@ -15,7 +15,7 @@ using namespace ael::peripherals::lis3dh;
 [[noreturn]] int main() {
     stdio_init_all();
 
-    auto spi = SPI(eInstSPI::SPI_0, 17, 18, 19, 16, 1'000'000);
+    auto spi = SPI(eInstSPI::SPI_0, 17, 18, 19, 16, 10'000'000);
     auto accm = LIS3DH(spi);
     (void)accm.reg_read(reg_addr::WHO_AM_I);
 
@@ -37,19 +37,20 @@ using namespace ael::peripherals::lis3dh;
 
     while (true) {
         // Clear terminal
-        printf("\e[1;1H\e[2J");
+        // printf("\e[1;1H\e[2J");
 
         // reg_status status;
 
         if (const auto status = accm.reg_read(reg_status::ADDR); not(status & 0x0Fu)) {
-            printf("Status: 0b%08b\n", status);
+            // printf("Status: 0b%08b\n", status);
+            printf("Status: %b\n", status);
+            sleep_ms(5);
             continue;
         }
 
         const auto accel = accm.read_accel();
         printf("CON: x: %03d, y: %03d, z: %03d\n", accel.x, accel.y, accel.z);
 
-
-        sleep_ms(100);
+        sleep_ms(5);
     }
 }

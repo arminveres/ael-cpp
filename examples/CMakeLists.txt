@@ -24,10 +24,10 @@ set(CMAKE_CXX_STANDARD 23)
 # =================================================================================================
 # Sample 1: Accelerometer
 # =================================================================================================
-add_executable(ael-accel
-    main.cpp
+add_executable(lis3dh-accel
+    lis3dh.cpp
 )
-target_compile_options(ael-accel PRIVATE
+target_compile_options(lis3dh-accel PRIVATE
     # -Werror
     -Wall
     -Wextra
@@ -46,12 +46,12 @@ target_compile_options(ael-accel PRIVATE
     -fdiagnostics-color
 )
 
-target_link_options(ael-accel PRIVATE
+target_link_options(lis3dh-accel PRIVATE
     -Wl,-gc-sections
     -Wl,-print-memory-usage
 )
 
-target_link_libraries(ael-accel PRIVATE
+target_link_libraries(lis3dh-accel PRIVATE
     ael_main
     ael_boards_pi_pico
     ael_peripherals_lis3dh
@@ -59,11 +59,58 @@ target_link_libraries(ael-accel PRIVATE
     pico_stdlib
 )
 
-target_link_libraries(ael-accel PUBLIC
+target_link_libraries(lis3dh-accel PUBLIC
     pico_stdlib
 )
 
-pico_add_extra_outputs(ael-accel)
+pico_add_extra_outputs(lis3dh-accel)
 # enable usb output, disable uart
-pico_enable_stdio_usb(ael-accel 1)
-pico_enable_stdio_uart(ael-accel 0)
+pico_enable_stdio_usb(lis3dh-accel 1)
+pico_enable_stdio_uart(lis3dh-accel 0)
+
+# =================================================================================================
+# Sample 2: Accelerometer
+# =================================================================================================
+add_executable(adxl345-accel
+    adxl345.cpp
+)
+target_compile_options(adxl345-accel PRIVATE
+    # -Werror
+    -Wall
+    -Wextra
+    -Wconversion
+    -Wpedantic
+    # note covered by above
+    -Wshadow
+    -Wundef
+    -Wdouble-promotion
+    -Os
+    -mtune=cortex-m0plus
+    -fno-common
+    -fstack-usage
+    -ffunction-sections
+    -fdata-sections
+    -fdiagnostics-color
+)
+
+target_link_options(adxl345-accel PRIVATE
+    -Wl,-gc-sections
+    -Wl,-print-memory-usage
+)
+
+target_link_libraries(adxl345-accel PRIVATE
+    ael_main
+    ael_boards_pi_pico
+    ael_peripherals_adxl345
+
+    pico_stdlib
+)
+
+target_link_libraries(adxl345-accel PUBLIC
+    pico_stdlib
+)
+
+pico_add_extra_outputs(adxl345-accel)
+# enable usb output, disable uart
+pico_enable_stdio_usb(adxl345-accel 1)
+pico_enable_stdio_uart(adxl345-accel 0)
