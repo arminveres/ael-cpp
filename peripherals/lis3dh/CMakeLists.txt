@@ -9,4 +9,3 @@ target_link_libraries(ael_peripherals_lis3dh INTERFACE
     hardware_spi
     hardware_gpio
 )
-

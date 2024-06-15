@@ -1,10 +1,10 @@
-#ifndef __AEL_PERIPHERALS_LIS3DH_LIS3DH_HPP
-#define __AEL_PERIPHERALS_LIS3DH_LIS3DH_HPP
+#ifndef __AEL_PERIPHERALS_INTERFACES_ACCELEROMETER_HPP
+#define __AEL_PERIPHERALS_INTERFACES_ACCELEROMETER_HPP
 #include <optional>
 
 #include "ael/types.hpp"
 
-namespace ael::peripherals::lis3dh {
+namespace ael::peripherals::interfaces {
 
 /**
  * @brief Interface class to be implemented by board specifics
@@ -12,7 +12,7 @@ namespace ael::peripherals::lis3dh {
  * @todo
  *  - add more optional or expected return types
  */
-class I_LIS3DH {
+class I_Accelerometer {
    public:
     /**
      * @brief Acceleration data in signed 16 bit integers
@@ -23,7 +23,7 @@ class I_LIS3DH {
         types::i16 z;
     };
 
-    virtual ~I_LIS3DH(){};
+    virtual ~I_Accelerometer(){};
 
     virtual auto init() -> std::optional<types::eError> = 0;
     virtual auto reg_set(const types::u8 reg, const types::u8 value) const -> void = 0;
@@ -47,5 +47,5 @@ class I_LIS3DH {
    private:
 };
 
-}  // namespace ael::peripherals::lis3dh
+}  // namespace ael::peripherals::interfaces
 #endif

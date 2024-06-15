@@ -23,8 +23,8 @@ class GPIO {
     GPIO &operator=(const GPIO &) = default;
     ~GPIO() {}
 
-    auto set() { gpio_put(m_pin, true); }
-    auto clear() { gpio_put(m_pin, false); }
+    auto set() { gpio_put(m_pin, 1); }
+    auto clear() { gpio_put(m_pin, 0); }
     auto toggle() {
         if (gpio_get(m_pin))
             clear();

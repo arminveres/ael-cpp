@@ -57,19 +57,18 @@ auto LIS3DH::reg_set(const u8 reg, const u8 value) const -> void { m_spi.rwrite<
 auto LIS3DH::reg_update(const u8 reg, const u8 val) const -> void { m_spi.rupdate(reg, val); }
 
 [[nodiscard]] auto LIS3DH::reg_read(const u8 reg) const -> u8 {
-    u8 ldata;
-    m_spi.rread<1>(reg | LIS3DH_SPI_READ_FLAG | LIS3DH_SPI_AUTO_INC_FLAG, &ldata);
-    // if (not m_spi->rread<1>(reg, &ldata)) return std::unexpected(eError::errorGeneric);
+    u8 ldata = 255;
+    const auto retval = m_spi.rread<1>(reg, &ldata);
     return ldata;
 }
 
 [[nodiscard]] auto LIS3DH::read_accel() const -> Accel {
     u16 rawx, rawy, rawz;
-    m_spi.rread<2>(reg_addr::OUT_X_L | LIS3DH_SPI_READ_FLAG | LIS3DH_SPI_AUTO_INC_FLAG,
+    m_spi.rread<2>(reg_addr::OUT_X_L | READ_FLAG | AUTO_INCREMENT_FLAG,
                    reinterpret_cast<u8 *>(&rawx));
-    m_spi.rread<2>(reg_addr::OUT_Y_L | LIS3DH_SPI_READ_FLAG | LIS3DH_SPI_AUTO_INC_FLAG,
+    m_spi.rread<2>(reg_addr::OUT_Y_L | READ_FLAG | AUTO_INCREMENT_FLAG,
                    reinterpret_cast<u8 *>(&rawy));
-    m_spi.rread<2>(reg_addr::OUT_Z_L | LIS3DH_SPI_READ_FLAG | LIS3DH_SPI_AUTO_INC_FLAG,
+    m_spi.rread<2>(reg_addr::OUT_Z_L | READ_FLAG | AUTO_INCREMENT_FLAG,
                    reinterpret_cast<u8 *>(&rawz));
     return Accel{.x = convert_to_signed<10>(rawx),
                  .y = convert_to_signed<10>(rawy),

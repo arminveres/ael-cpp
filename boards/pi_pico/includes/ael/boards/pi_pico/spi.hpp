@@ -11,6 +11,10 @@
 
 namespace ael::boards::pi_pico::spi {
 
+static constexpr types::u8 WRITE_FLAG = 0x00;
+static constexpr types::u8 AUTO_INCREMENT_FLAG = 0x40;
+static constexpr types::u8 READ_FLAG = 0x80;
+
 enum class eInstSPI { SPI_0, SPI_1 };
 
 /**
@@ -89,7 +93,7 @@ class SPI {
         types::u8 msg[len];
 
         // Construct message (set ~W bit low, MB bit low)
-        msg[0] = 0x00 | reg;
+        msg[0] = reg | WRITE_FLAG;
         // msg[1] = data;
 
         for (auto i = 0u; i < buflen; ++i) {
@@ -112,7 +116,7 @@ class SPI {
 
         // Construct message (set ~W bit low, MB bit low)
         types::u8 msg[len];
-        msg[0] = 0x00 | reg;
+        msg[0] = reg | WRITE_FLAG;
         msg[1] = reg_val | data;
 
         // Write to register

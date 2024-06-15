@@ -3,13 +3,13 @@
 #include <optional>
 
 #include "../spi.hpp"
-#include "ael/peripherals/lis3dh/lis3dh.hpp"
+#include "ael/peripherals/interfaces/accelerometer.hpp"
 #include "ael/peripherals/lis3dh/registers.hpp"
 #include "ael/types.hpp"
 
 namespace ael::boards::pi_pico::extras::lis3dh {
 
-class LIS3DH : private peripherals::lis3dh::I_LIS3DH {
+class LIS3DH : private peripherals::interfaces::I_Accelerometer {
    public:
     static constexpr types::u8 LIS3DH_ID = 0x33;
 
@@ -24,10 +24,6 @@ class LIS3DH : private peripherals::lis3dh::I_LIS3DH {
     [[nodiscard]] auto read_accel() const -> Accel override;
 
    private:
-    static constexpr types::u8 LIS3DH_SPI_READ_FLAG = 0x80;
-    static constexpr types::u8 LIS3DH_SPI_WRITE_FLAG = 0x00;
-    static constexpr types::u8 LIS3DH_SPI_AUTO_INC_FLAG = 0x40;
-
     spi::SPI& m_spi;
     types::u8 m_sampling_rate;
 

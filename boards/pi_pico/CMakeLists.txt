@@ -11,6 +11,7 @@ target_include_directories(ael_boards_pi_pico PUBLIC
 target_link_libraries(ael_boards_pi_pico PUBLIC
     ael_main
     ael_peripherals_lis3dh
+    ael_peripherals_interfaces
 
     pico_stdlib
     pico_time
