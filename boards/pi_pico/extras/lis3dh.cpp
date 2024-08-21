@@ -2,7 +2,7 @@
 
 #include <pico/stdlib.h>
 
-#include <optional>
+#include <expected>
 
 #include "ael/boards/pi_pico/spi.hpp"
 #include "ael/peripherals/lis3dh/registers.hpp"
@@ -17,7 +17,7 @@ LIS3DH::LIS3DH(SPI &p_spi, const u8 sampling_rate) : m_spi(p_spi), m_sampling_ra
 
 LIS3DH::~LIS3DH() {}
 
-auto LIS3DH::init() -> std::optional<eError> {
+auto LIS3DH::init() -> std::expected<void, eError> {
     const reg_ctrl1 r1{
         .Xen = true,
         .Yen = true,
@@ -49,7 +49,7 @@ auto LIS3DH::init() -> std::optional<eError> {
     };
     this->reg_set(reg_temp_cfg::ADDR, rtemp.reg);
 
-    return std::nullopt;
+    return {};
 }
 
 auto LIS3DH::reg_set(const u8 reg, const u8 value) const -> void { m_spi.rwrite<1>(reg, &value); }

@@ -3,7 +3,7 @@
 #include <pico/platform.h>
 #include <pico/stdlib.h>
 
-#include <optional>
+#include <expected>
 
 #include "ael/boards/pi_pico/spi.hpp"
 #include "ael/peripherals/adxl345/registers.hpp"
@@ -20,9 +20,9 @@ ADXL345::ADXL345(SPI &p_spi, const u8 sampling_rate)
 
 ADXL345::~ADXL345() {}
 
-auto ADXL345::init() -> std::optional<eError> {
+auto ADXL345::init() -> std::expected<void, eError> {
     this->reg_set(ADXL345_REG_POWER_CTL, 0x08);
-    return std::nullopt;
+    return {};
 }
 
 auto ADXL345::reg_set(const u8 reg, const u8 value) const -> void { m_spi.rwrite<1>(reg, &value); }

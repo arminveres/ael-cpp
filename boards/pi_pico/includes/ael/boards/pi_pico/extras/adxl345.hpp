@@ -1,6 +1,6 @@
 #ifndef __AEL_BOARDS_PI_PICO_EXTRAS_ADXL345_HPP
 #define __AEL_BOARDS_PI_PICO_EXTRAS_ADXL345_HPP
-#include <optional>
+#include <expected>
 
 #include "../spi.hpp"
 #include "ael/peripherals/interfaces/accelerometer.hpp"
@@ -15,7 +15,7 @@ class ADXL345 : private peripherals::interfaces::I_Accelerometer {
     explicit ADXL345(spi::SPI& p_spi, const types::u8 sampling_rate = 0);
     ~ADXL345();
 
-    auto init() -> std::optional<types::eError> override;
+    auto init() -> std::expected<void, types::eError> override;
     auto reg_set(const types::u8 reg, const types::u8 value) const -> void override;
     auto reg_update(const types::u8 reg, const types::u8 val) const -> void override;
     [[nodiscard]] auto reg_read(const types::u8 reg) const -> types::u8 override;

@@ -1,6 +1,6 @@
 #ifndef __AEL_BOARDS_PI_PICO_EXTRAS_HPP
 #define __AEL_BOARDS_PI_PICO_EXTRAS_HPP
-#include <optional>
+#include <expected>
 
 #include "../spi.hpp"
 #include "ael/peripherals/interfaces/accelerometer.hpp"
@@ -17,7 +17,7 @@ class LIS3DH : private peripherals::interfaces::I_Accelerometer {
                     const types::u8 sampling_rate = peripherals::lis3dh::reg_ctrl1::RATE_10_HZ);
     ~LIS3DH();
 
-    auto init() -> std::optional<types::eError> override;
+    auto init() -> std::expected<void, types::eError> override;
     auto reg_set(const types::u8 reg, const types::u8 value) const -> void override;
     auto reg_update(const types::u8 reg, const types::u8 val) const -> void override;
     [[nodiscard]] auto reg_read(const types::u8 reg) const -> types::u8 override;
