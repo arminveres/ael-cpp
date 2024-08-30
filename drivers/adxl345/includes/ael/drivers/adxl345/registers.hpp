@@ -1,9 +1,9 @@
-#ifndef __AEL_PERIPHERALS_ADXL345_REGISTERS_HPP
-#define __AEL_PERIPHERALS_ADXL345_REGISTERS_HPP
+#ifndef __AEL_DRIVERS_ADXL345_REGISTERS_HPP
+#define __AEL_DRIVERS_ADXL345_REGISTERS_HPP
 
 #include "ael/types.hpp"
 
-namespace ael::peripherals::adxl345 {
+namespace ael::drivers::adxl345 {
 
 #define ADXL345_DEFAULT_ADDRESS (0x53)  ///< Assumes ALT address pin low
 /*=========================================================================*/
@@ -84,6 +84,6 @@ typedef enum {
     ADXL345_RANGE_2_G = 0b00    ///< +/- 2g (default value)
 } range_t;
 
-};  // namespace ael::peripherals::adxl345
+};  // namespace ael::drivers::adxl345
 
 #endif

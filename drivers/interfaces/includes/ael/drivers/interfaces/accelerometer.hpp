@@ -1,10 +1,10 @@
-#ifndef __AEL_PERIPHERALS_INTERFACES_ACCELEROMETER_HPP
-#define __AEL_PERIPHERALS_INTERFACES_ACCELEROMETER_HPP
+#ifndef __AEL_DRIVERS_INTERFACES_ACCELEROMETER_HPP
+#define __AEL_DRIVERS_INTERFACES_ACCELEROMETER_HPP
 #include <expected>
 
 #include "ael/types.hpp"
 
-namespace ael::peripherals::interfaces {
+namespace ael::drivers::interfaces {
 
 /**
  * @brief Interface class to be implemented by board specifics
@@ -35,5 +35,5 @@ class I_Accelerometer {
    private:
 };
 
-}  // namespace ael::peripherals::interfaces
+}  // namespace ael::drivers::interfaces
 #endif

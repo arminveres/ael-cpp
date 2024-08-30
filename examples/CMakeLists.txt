@@ -54,7 +54,7 @@ target_link_options(lis3dh-accel PRIVATE
 target_link_libraries(lis3dh-accel PRIVATE
     ael_main
     ael_boards_pi_pico
-    ael_peripherals_lis3dh
+    ael_drivers_lis3dh
 
     pico_stdlib
 )
@@ -101,7 +101,7 @@ target_link_options(adxl345-accel PRIVATE
 target_link_libraries(adxl345-accel PRIVATE
     ael_main
     ael_boards_pi_pico
-    ael_peripherals_adxl345
+    ael_drivers_adxl345
 
     pico_stdlib
 )

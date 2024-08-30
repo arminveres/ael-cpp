@@ -6,14 +6,14 @@ add_library(ael_boards_pi_pico STATIC
 target_include_directories(ael_boards_pi_pico PUBLIC
     includes
     ${CMAKE_SOURCE_DIR}/cpp/main/includes
-    ${CMAKE_SOURCE_DIR}/cpp/peripherals/lis3dh/includes
+    ${CMAKE_SOURCE_DIR}/cpp/drivers/lis3dh/includes
 )
 
 target_link_libraries(ael_boards_pi_pico PUBLIC
     ael_main
-    ael_peripherals_lis3dh
-    ael_peripherals_adxl345
-    ael_peripherals_interfaces
+    ael_drivers_lis3dh
+    ael_drivers_adxl345
+    ael_drivers_interfaces
 
     pico_stdlib
     pico_time

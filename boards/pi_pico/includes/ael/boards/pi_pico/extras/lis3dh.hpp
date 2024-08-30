@@ -3,18 +3,18 @@
 #include <expected>
 
 #include "../spi.hpp"
-#include "ael/peripherals/interfaces/accelerometer.hpp"
-#include "ael/peripherals/lis3dh/registers.hpp"
+#include "ael/drivers/interfaces/accelerometer.hpp"
+#include "ael/drivers/lis3dh/registers.hpp"
 #include "ael/types.hpp"
 
 namespace ael::boards::pi_pico::extras::lis3dh {
 
-class LIS3DH : private peripherals::interfaces::I_Accelerometer {
+class LIS3DH : private drivers::interfaces::I_Accelerometer {
    public:
     static constexpr types::u8 LIS3DH_ID = 0x33;
 
     explicit LIS3DH(spi::SPI& p_spi,
-                    const types::u8 sampling_rate = peripherals::lis3dh::reg_ctrl1::RATE_10_HZ);
+                    const types::u8 sampling_rate = drivers::lis3dh::reg_ctrl1::RATE_10_HZ);
     ~LIS3DH();
 
     auto init() -> std::expected<void, types::eError> override;

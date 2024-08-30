@@ -5,12 +5,12 @@
 #include <expected>
 
 #include "ael/boards/pi_pico/spi.hpp"
-#include "ael/peripherals/lis3dh/registers.hpp"
+#include "ael/drivers/lis3dh/registers.hpp"
 #include "ael/types.hpp"
 
 using namespace ael::boards::pi_pico::extras::lis3dh;
 using namespace ael::boards::pi_pico::spi;
-using namespace ael::peripherals::lis3dh;
+using namespace ael::drivers::lis3dh;
 using namespace ael::types;
 
 LIS3DH::LIS3DH(SPI &p_spi, const u8 sampling_rate) : m_spi(p_spi), m_sampling_rate(sampling_rate) {}

@@ -4,13 +4,13 @@
 
 #include "ael/boards/pi_pico/extras/lis3dh.hpp"
 #include "ael/boards/pi_pico/spi.hpp"
-#include "ael/peripherals/lis3dh/registers.hpp"
+#include "ael/drivers/lis3dh/registers.hpp"
 #include "ael/types.hpp"
 
 using namespace ael::types;
 using namespace ael::boards::pi_pico::spi;
 using namespace ael::boards::pi_pico::extras::lis3dh;
-using namespace ael::peripherals::lis3dh;
+using namespace ael::drivers::lis3dh;
 
 [[noreturn]] int main() {
     stdio_init_all();

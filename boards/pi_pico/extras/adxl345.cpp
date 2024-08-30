@@ -6,14 +6,14 @@
 #include <expected>
 
 #include "ael/boards/pi_pico/spi.hpp"
-#include "ael/peripherals/adxl345/registers.hpp"
+#include "ael/drivers/adxl345/registers.hpp"
 #include "ael/types.hpp"
 #include "pico/time.h"
 
 using namespace ael::boards::pi_pico::extras::adxl345;
 using namespace ael::boards::pi_pico::spi;
 using namespace ael::types;
-using namespace ael::peripherals::adxl345;
+using namespace ael::drivers::adxl345;
 
 ADXL345::ADXL345(SPI &p_spi, const u8 sampling_rate)
     : m_spi(p_spi), m_sampling_rate(sampling_rate) {}

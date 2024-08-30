@@ -3,12 +3,12 @@
 #include <expected>
 
 #include "../spi.hpp"
-#include "ael/peripherals/interfaces/accelerometer.hpp"
+#include "ael/drivers/interfaces/accelerometer.hpp"
 #include "ael/types.hpp"
 
 namespace ael::boards::pi_pico::extras::adxl345 {
 
-class ADXL345 : private peripherals::interfaces::I_Accelerometer {
+class ADXL345 : private drivers::interfaces::I_Accelerometer {
    public:
     static constexpr types::u8 ADXL345_ID = 0xE5;
 

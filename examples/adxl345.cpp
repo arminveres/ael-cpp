@@ -11,13 +11,13 @@
 
 #include "ael/boards/pi_pico/extras/adxl345.hpp"
 #include "ael/boards/pi_pico/spi.hpp"
-#include "ael/peripherals/adxl345/registers.hpp"
+#include "ael/drivers/adxl345/registers.hpp"
 #include "ael/types.hpp"
 
 using namespace ael::types;
 using namespace ael::boards::pi_pico::spi;
 using namespace ael::boards::pi_pico::extras::adxl345;
-using namespace ael::peripherals::adxl345;
+using namespace ael::drivers::adxl345;
 
 auto software_reset() {
     watchdog_enable(1, 1);

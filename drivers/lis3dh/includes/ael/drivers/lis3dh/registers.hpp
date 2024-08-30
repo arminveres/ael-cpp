@@ -2,8 +2,8 @@
  * @note Adjusted from: https://github.com/RavenSystem/esp-homekit-devices
  * Added unions for easier conversion
  */
-#ifndef __AEL_PERIPHERALS_LIS3DH_REGISTERS_HPP
-#define __AEL_PERIPHERALS_LIS3DH_REGISTERS_HPP
+#ifndef __AEL_DRIVERS_LIS3DH_REGISTERS_HPP
+#define __AEL_DRIVERS_LIS3DH_REGISTERS_HPP
 
 #include "ael/types.hpp"
 
@@ -13,7 +13,7 @@
 // TODO(aver): remove this/or rename it!
 #define ANY_DATA_READY 0x0f  // REG_STATUS<3:0>
 
-namespace ael::peripherals::lis3dh {
+namespace ael::drivers::lis3dh {
 
 /**
  * @brief register addresses
@@ -248,8 +248,8 @@ union reg_click_cfg {
     types::u8 reg;
 };
 
-}  // namespace ael::peripherals::lis3dh
+}  // namespace ael::drivers::lis3dh
 
 #pragma GCC diagnostic pop
 
-#endif  // !__AEL_PERIPHERALS_LIS3DH_REGISTERS_HPP
+#endif  // !__AEL_DRIVERS_LIS3DH_REGISTERS_HPP
